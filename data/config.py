@@ -3,3 +3,4 @@ class Config:
     APP_PACKAGE = "org.joinmastodon.android"
     APP_ACTIVITY = "org.joinmastodon.android.MainActivity"
     SERVER_NAME = "mastodon.social"
+    SEARCH_TEXT = "tests"

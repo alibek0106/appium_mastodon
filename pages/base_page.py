@@ -22,6 +22,14 @@ class BasePage:
             return element.is_displayed()
         except:
             return False
+        
+    def get_element_location(self, locator):
+        element = self.wait.until(EC.visibility_of_element_located(locator))
+        return element.location
+    
+    def get_element_text(self, locator):
+        element = self.wait.until(EC.visibility_of_element_located(locator))
+        return element.text
             
     def get_app_state(self, package_name):
         return self.driver.query_app_state(package_name)

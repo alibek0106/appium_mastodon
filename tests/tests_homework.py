@@ -45,5 +45,22 @@ def test_mastodon_flow(driver):
     explore_page.click_first_post()
     assert post_details_page.is_post_displayed(), "Post details not opened!"
 
-    # 7: Close the app and the session 
-    print("Step 7: Handled automatically by the conftest.py teardown (yield)!")
+def test_interaction_with_elements(navigate_to_explore):
+    explore_page = navigate_to_explore['explore_page']
+
+    # STEP 4: Check that posts are in the Displayed state
+    assert explore_page.are_posts_displayed(), "Posts are not in the displayed state!"
+
+    # STEP 5: Get the position of the search field
+    position = explore_page.get_search_field_position()
+    assert position['x'] != 0 or position['y'] != 0, "Search field position is 0:0!"
+
+    # STEP 6: Enter 'tests'
+    explore_page.enter_search_query(Config.SEARCH_TEXT)
+    actual_text = explore_page.get_search_field_text()
+    assert actual_text == Config.SEARCH_TEXT, f"Fail: Expected '{Config.SEARCH_TEXT}', but found '{actual_text}'"
+
+    # STEP 7: Clear the search field
+    explore_page.clear_search_field()
+    cleared_text = explore_page.get_search_field_text()
+    assert cleared_text == 'Search Mastodon', f"Fail: Expected placeholder 'Search Mastodon', but found '{cleared_text}'"
