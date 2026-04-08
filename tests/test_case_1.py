@@ -34,6 +34,7 @@ def test_mastodon_flow(driver):
     login_page.click_server()
     login_page.click_next()
     login_page.click_authorize()
+    home_page.handle_notification_popup()
     assert home_page.is_home_screen_displayed(), "Home screen not displayed after login!"
 
     # 5: Tap 'Explore' tab 
