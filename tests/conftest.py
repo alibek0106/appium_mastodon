@@ -43,9 +43,7 @@ def navigate_to_explore(driver):
     home_page.click_explore_tab()
 
     assert explore_page.is_explore_screen_displayed(), "[PRECONDITION FAILED] Explore screen did not load!"
-    
-    print("[PRECONDITION] Ready! Handing control over to the test.")
-    
+        
     # Return the page objects
     return {
         'driver': driver,
