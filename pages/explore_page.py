@@ -30,3 +30,13 @@ class ExplorePage(BasePage):
 
     def get_search_field_text(self):
         return self.get_element_text(self.SEARCH_INPUT_FIELD)
+    
+    def click_search_btn(self):
+        self.click_element(self.SEARCH_INPUT_BTN)
+
+    def click_search_field(self):
+        self.click_element(self.SEARCH_INPUT_FIELD)
+
+    def send_enter_via_sendkeys(self):
+        element = self.wait.until(EC.visibility_of_element_located(self.SEARCH_INPUT_FIELD))
+        element.send_keys('\n')

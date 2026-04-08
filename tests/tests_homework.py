@@ -3,6 +3,7 @@ from pages.server_login_page import ServerLoginPage
 from pages.home_page import HomePage
 from pages.explore_page import ExplorePage
 from pages.post_details_page import PostDetailsPage
+from appium.webdriver.extensions.android.nativekey import AndroidKey
 from data.config import Config
 import time
 
@@ -64,3 +65,40 @@ def test_interaction_with_elements(navigate_to_explore):
     explore_page.clear_search_field()
     cleared_text = explore_page.get_search_field_text()
     assert cleared_text == 'Search Mastodon', f"Fail: Expected placeholder 'Search Mastodon', but found '{cleared_text}'"
+
+def test_keyboard_processing(navigate_to_explore):
+    explore_page = navigate_to_explore['explore_page']
+
+    # STEP 4: Tap the search field to show keyboard
+    explore_page.click_search_btn()
+    assert explore_page.is_keyboard_visible(), "Virtual keyboard did not appear"
+
+    # STEP 5: Close via "Search" button
+    explore_page.tap_keyboard_search_button()
+    is_closed_by_search = not explore_page.is_keyboard_visible()
+
+    # STEP 6: If closed, tap search field again
+    if is_closed_by_search:
+        explore_page.click_search_field()
+
+    # STEP 7: Close via sendkeys
+    explore_page.send_enter_via_sendkeys()
+    is_closed_by_sendkeys = not explore_page.is_keyboard_visible()
+
+    # STEP 8: If closed, tap search fiedl again
+    if is_closed_by_sendkeys:
+        explore_page.click_search_field()
+
+    # STEP 9: Close via hide_keyboard()
+    explore_page.hide_virtual_keyboard()
+    is_closed_by_hide = not explore_page.is_keyboard_visible()
+
+    # STEP 10: If closed, tap search field again
+    if is_closed_by_hide:
+        explore_page.click_search_field()
+
+    # STEP 11: Enter characters using pressKey()
+    explore_page.press_android_key(AndroidKey.Q)
+    explore_page.press_android_key(AndroidKey.A)
+    actual_text = explore_page.get_search_field_text()
+    assert 'QA' in actual_text.upper(), f"Fail: Expected 'QA' in search field, but found '{actual_text}'"

@@ -39,3 +39,18 @@ class BasePage:
 
     def activate_mobile_app(self, package_name):
         self.driver.activate_app(package_name)
+
+    def is_keyboard_visible(self):
+        return self.driver.is_keyboard_shown()
+    
+    def hide_virtual_keyboard(self):
+        try:
+            self.driver.hide_keyboard()
+        except:
+            print("Keyboard was already hidden")
+
+    def tap_keyboard_search_button(self):
+        self.driver.execute_script('mobile: performEditorAction', {'action': 'search'})
+
+    def press_android_key(self, keycode):
+        self.driver.press_keycode(keycode)
